@@ -20,7 +20,7 @@ class faceDetector():
         self.font = cv2.FONT_HERSHEY_SIMPLEX
   
         # org
-        self.org = (50, 100)
+        self.org = (300, 100)
 
         # fontScale
         self.fontScale = 2
@@ -42,11 +42,11 @@ class faceDetector():
         try:
             direction = ''
             for facial_landmarks in result.multi_face_landmarks:
-                # for i in range(0, 468):
-                #     pt1 = facial_landmarks.landmark[i]
-                #     x = int(pt1.x * width)
-                #     y = int(pt1.y * height)
-                #     cv2.circle(image, (x, y), 2, (100, 100, 0), -1)
+                for i in range(0, 468):
+                    pt1 = facial_landmarks.landmark[i]
+                    x = int(pt1.x * width)
+                    y = int(pt1.y * height)
+                    cv2.circle(image, (x, y), 2, (100, 100, 0), -1)
                 #     #cv2.putText(image, str(i), (x, y), 0, 1, (0, 0, 0))
                 nose_points = facial_landmarks.landmark[0]
                 nose_point_x = int(nose_points.x * width)

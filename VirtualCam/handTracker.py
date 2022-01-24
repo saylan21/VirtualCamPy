@@ -5,7 +5,7 @@ import time
 class HandTracker():
     def __init__(self):
         self.mp_hands = mp.solutions.hands
-        self.hands = self.mp_hands.Hands( max_num_hands=1)
+        self.hands = self.mp_hands.Hands( max_num_hands=2)
         self.mpDraw = mp.solutions.drawing_utils
 
     def trackHands(self,rgb_img):
@@ -14,6 +14,7 @@ class HandTracker():
         end_time = time.time()
         h, w, c = rgb_img.shape
         #print("PROCESS TIME :", end_time - ct)
+        finger_points = []
         if results.multi_hand_landmarks:
             for handLms in results.multi_hand_landmarks:
                 #self.mpDraw.draw_landmarks(rgb_img, handLms)
@@ -23,11 +24,13 @@ class HandTracker():
                 point_finger = handLms.landmark[8]
                 cx, cy = int(point_finger.x*w), int(point_finger.y*h)
                 cv2.circle(rgb_img,(cx, cy), 2, (100, 100, 0), 5)
+                finger_points.append([cx,cy])
                 middle_finger = handLms.landmark[12]
                 cx, cy = int(middle_finger.x*w), int(middle_finger.y*h)
                 cv2.circle(rgb_img,(cx, cy), 2, (100, 100, 0), 5)
-        return rgb_img
-
+                finger_points.append([cx,cy])
+        #return rgb_img
+        return finger_points
 def main():
     handTrac = HandTracker()
     cap = cv2.VideoCapture(0)
